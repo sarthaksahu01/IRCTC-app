@@ -1,0 +1,37 @@
+[
+  {
+  "train_id": "raj334",
+  "train_name":"rajdhani",
+  "train_number": 67009,
+  "seats": [
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0]
+  ],
+  "station_time": {
+    "Bangalore": "12:50:00",
+    "Hyderabad": "18:30:00",
+    "Bhopal": "23:09:00"
+  },
+  "stations": [
+    "Bangalore","Hyderabad","Bhopal"
+  ]
+},
+   {
+  "train_id": "raj098",
+  "train_name":"rajdhani",
+  "train_number": 67009,
+  "seats": [
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0]
+  ],
+  "station_time": {
+    "Bangalore": "12:50:00",
+    "Hyderabad": "18:30:00",
+    "Bhopal": "23:09:00"
+  },
+  "stations": [
+    "Bangalore","Hyderabad","Bhopal"
+  ]
+
+}
+]
