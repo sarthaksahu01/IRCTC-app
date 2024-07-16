@@ -6,31 +6,43 @@ import IRCTC.entities.User;
 import IRCTC.utils.UserServiceUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class UserBookingService {
     private User user;
     private static final String USERS_PATH = "src/main/java/IRCTC/localDb/users.json";
     private ObjectMapper objectMapper = new ObjectMapper();
-    private List<User> userList;
+    private List<User> userList = new ArrayList<>();
 
     public UserBookingService(User user1) throws IOException {
         this.user = user1;
         loadUsers();
     }
 
-    public UserBookingService() throws IOException {
+    public UserBookingService()
+    {
         loadUsers();
 
     }
 
-    public List<User> loadUsers() throws IOException{
-        File  users =  new File(USERS_PATH);
-        return userList = objectMapper.readValue(users, new TypeReference<List<User>>(){});
+    public List<User> loadUsers()
+    {
+       try
+       {
+           File  users =  new File(USERS_PATH);
+           userList = objectMapper.readValue(users, new TypeReference<List<User>>(){});
+       }
+       catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+       return userList;
     }
 
     //check if current loggedin user and service invoking user are same
@@ -42,12 +54,15 @@ public class UserBookingService {
 
     }
 
-    public  Boolean signUp(User user1){
-        try {
+    public  Boolean signUp(User user1)
+    {
+        try
+        {
             userList.add(user1);
             saveUserListToFile();
             return Boolean.TRUE;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             return Boolean.FALSE;
         }
     }
@@ -59,15 +74,28 @@ public class UserBookingService {
     }
 
     public void fetchBooking(){
-        Optional<User> userFetched = userList.stream().filter(user1 -> {
+        Optional<User> userFetched = userList.stream().filter(user1 ->
+        {
+            System.out.println("user1.getName() ---> " + user1.getName());
+            System.out.println("user.getName() ---> " + user.getName());
+
+            System.out.println("user.getName() ---> " + user.getName());
+            System.out.println("user.getName() ---> " + user.getName());
+
             return user1.getName().equals(user.getName()) && UserServiceUtil.checkPassword(user.getPassword(), user1.getHashPassword());
         }).findFirst();
-        if(userFetched.isPresent()){
+
+        if(userFetched.isPresent())
+        {
+            System.out.println("User fetched: " + userFetched.get().getName() + "is present.");
             userFetched.get().printTickets();
+        }else{
+            System.out.println("No tickets found");
         }
     }
 
-    public Boolean cancelBooking(String ticketId) throws IOException{
+    public Boolean cancelBooking(String ticketId) throws IOException
+    {
 //        List<Ticket> ticketList = user.getTicketsBooked();
 //        Optional<Ticket> foundTicket = ticketList.stream().filter(ticket -> ticket.getTicketId().equals(ticketId)).findFirst();
 //        if(foundTicket.isPresent()){
@@ -95,13 +123,18 @@ public class UserBookingService {
     }
 
     public List<Train> getTrains(String sourceStation, String destinationStation) {
-        try {
-            TrainService trainService = new TrainService();
-            return trainService.searchTrains(sourceStation, destinationStation);
-        }catch(IOException e){
-            return new ArrayList<>();
-        }
 
+        List<Train> list = new ArrayList<>();
+        try
+        {
+            TrainService trainService = new TrainService();
+            list = trainService.searchTrains(sourceStation, destinationStation);
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        return list;
     }
 
 

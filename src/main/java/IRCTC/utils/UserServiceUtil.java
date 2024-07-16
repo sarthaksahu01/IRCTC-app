@@ -4,6 +4,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class UserServiceUtil {
     public static String hashPassword(String password) {
+       System.err.println(BCrypt.hashpw(password, BCrypt.gensalt()));
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
